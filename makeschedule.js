@@ -1,4 +1,5 @@
 document.addEventListener('load', function(){
+	window.makeSchedule = function(){
 	var termend = new Date(2014, 9, 27,0,0,0,0); //hack, definitely do this better later
 	var arr = document.getElementsByClassName("ddlabel");
 	// more hacks - trying to get this out fast
@@ -61,4 +62,15 @@ document.addEventListener('load', function(){
 			cal.addEvent(course, description, location, start, end, rrule);
 		}
 	}	
-}, true);
+	cal.download();
+}
+var btn = document.createElement("input");
+btn.id = "insertedbtn";
+if (document.getElementById("insertedbtn")!== null) return; // super lazy
+btn.type = "button";
+btn.value = "Download Schedule!!!";
+btn.onclick = function(){window.makeSchedule()};
+btn.style.width = "100%";
+btn.style.height = "200px";
+document.body.children[0].insertBefore(btn);
+} , true);
