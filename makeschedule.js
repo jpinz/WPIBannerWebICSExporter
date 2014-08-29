@@ -66,7 +66,7 @@ document.addEventListener('load', function(){
 }
 var btn = document.createElement("input");
 btn.id = "insertedbtn";
-if (document.getElementById("insertedbtn")!== null) return; // super lazy
+if (document.getElementById("insertedbtn")!== null || document.URL.indexOf("pls/prod/bwskfshd") === -1) return; // super lazy
 btn.type = "button";
 btn.value = "Download Schedule!!!";
 btn.onclick = function(){window.makeSchedule()};
