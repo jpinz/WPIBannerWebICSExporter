@@ -1,0 +1,20 @@
+{
+	"name": "Whoopie Cal Exporter",
+	"description": "Mouse over text appears under every XKCD comic for easy reading",
+	"version": "1.2",
+	"author": "Evin Ugur (http://github.com/evinugur)",
+	"permissions": [
+		"https://bannerweb.wpi.edu/pls/prod/*"
+	],
+
+	"web_accessible_resources": ["makeschedule.js", "ics.deps.min.js", "ics.min.js"],
+	"content_scripts": [
+		{
+			"matches": ["https://bannerweb.wpi.edu/pls/prod/*"],
+			"js": ["ics.deps.min.js", "ics.min.js", "app.js"],
+			"run_at": "document_idle"
+		}
+	],
+	"icons": {},
+	"manifest_version": 2
+}
