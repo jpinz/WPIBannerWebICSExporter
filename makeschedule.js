@@ -1,3 +1,9 @@
+window.randomCSSColor = function() {
+	var r = Math.floor(Math.random() * 255);
+	var g = Math.floor(Math.random() * 255);
+	var b = Math.floor(Math.random() * 255);
+	return "rgb(" + r + ", " + g + ", " + b + ")";
+}
 document.addEventListener('load', function(){
 	window.makeSchedule = function(){
 	var termend = new Date(2014, 9, 27,0,0,0,0); //hack, definitely do this better later
@@ -73,4 +79,7 @@ btn.onclick = function(){window.makeSchedule()};
 btn.style.width = "100%";
 btn.style.height = "200px";
 document.body.children[0].insertBefore(btn);
+btn.style.fontSize = "32pt";
+var anon = function() { btn.style.backgroundColor = window.randomCSSColor();window.setTimeout(anon, 500);}
+anon();
 } , true);
