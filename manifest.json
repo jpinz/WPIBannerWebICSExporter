@@ -1,7 +1,7 @@
 {
 	"name": "Whoopie Cal Exporter",
-	"description": "Mouse over text appears under every XKCD comic for easy reading",
-	"version": "1.2",
+	"description": "Generate an ICS for Google Cal, iCal, etc from BannerWeb",
+	"version": "1.0",
 	"author": "Evin Ugur (http://github.com/evinugur)",
 	"permissions": [
 		"https://bannerweb.wpi.edu/pls/prod/*"

@@ -1,5 +1,5 @@
 document.addEventListener('load', function(){
-	var termend = new Date(2014, 10, 27,0,0,0,0); //hack, definitely do this better later
+	var termend = new Date(2014, 9, 27,0,0,0,0); //hack, definitely do this better later
 	var arr = document.getElementsByClassName("ddlabel");
 	// more hacks - trying to get this out fast
 	var monday = new Date(document.getElementsByClassName("fieldlargetext")[0].innerHTML.split("Week of ")[1]);
@@ -27,7 +27,8 @@ document.addEventListener('load', function(){
 			// now convert a bannwerb date to a w3c spec'd date
 			if (dayOfWeek === 6) dayOfWeek = 0; // sunday becomes last
 			else if (dayOfWeek === 0 ) dayOfWeek = 1; // monday becomes the day after sunday
-			else dayOfWeek += 1; // all the other days get a little bigger since Sunday dipped past monday
+			else dayOfWeek -=1;
+			// all the other days get a little bigger since Sunday dipped past monday
 
 			// build a Date object based off of monday
 			var workingDate = new Date(monday.getTime()); // getTime() returns a date expressed as a huge number
