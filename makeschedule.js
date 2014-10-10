@@ -6,7 +6,7 @@ window.randomCSSColor = function() {
 }
 document.addEventListener('load', function(){
 	window.makeSchedule = function(){
-	var termend = new Date(2014, 9, 27,0,0,0,0); //hack, definitely do this better later
+	var termend = new Date(2014, 11, 19,0,0,0,0); //hack, definitely do this better later
 	var arr = document.getElementsByClassName("ddlabel");
 	// more hacks - trying to get this out fast
 	var monday = new Date(document.getElementsByClassName("fieldlargetext")[0].innerHTML.split("Week of ")[1]);

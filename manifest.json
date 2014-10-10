@@ -1,7 +1,7 @@
 {
 	"name": "Whoopie Cal Exporter",
 	"description": "Generate an ICS for Google Cal, iCal, etc from WPI BannerWeb",
-	"version": "1.2",
+	"version": "1.2.1",
 	"author": "Evin Ugur (http://github.com/evinugur)",
 	"permissions": [
 		"https://bannerweb.wpi.edu/pls/prod/*"
