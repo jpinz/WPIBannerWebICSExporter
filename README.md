@@ -12,7 +12,7 @@ Chrome extension to export an ICS from your WPI Bannerweb schedule:
 
 ## Improvements
 
-The app can use some optimizations for determing which term you're currently in (right now it just defaults to A-term as a hack, but that works for the time being...).
+The app can use some optimizations for determing which term you're currently in (right now it just defaults to B-term as a hack, but that works for the time being...).
 Additionally, the app will need to be maintained as the DOM of BannerWeb evolves, although I find that unlikely given how antiquated it already is.
 
 Finally, this approach only exists because there simply is no better way to make a cal file without entering data by hand. Either WPI should have that functionaity, or expose said data as an API so we don't have to scrape their DOM
