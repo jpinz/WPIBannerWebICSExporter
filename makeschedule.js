@@ -1,12 +1,18 @@
 document.addEventListener('load', function(){
+
 	window.makeSchedule = function(){
 		console.log("Button Clicked");
-		var termend = new Date(2016, 9, 13,0,0,0,0); //TODO: Add input at the top to signify end of term
+		var enddate = document.getElementById("datepicker").value;
+		if(!enddate) window.alert("Please select a date for the term to end on.");
+		else {
+		var datearray = enddate.split("-");
+		var termend = new Date(datearray[0], datearray[1]-1, datearray[2],0,0,0,0); //TODO: Add input at the top to signify end of term
+		console.log(termend);
 		var arr = document.getElementsByTagName('tbody')[7];//hardcoded to find the 7th table on the page, should be the schedule
 		console.log(arr);
 		// more hacks - trying to get this out fast
 		var monday = new Date(document.getElementsByClassName("fieldlargetext")[0].innerHTML.split("Week of ")[1]);
-		console.log(monday)
+		//console.log(monday)
 		// better solution would be to use Date.now and then figure out when the weekdays are in proximity to the current date
 
 		// takes a Date object and a string that's not formatted on bannerweb and returns the date with the time tacked on
@@ -24,22 +30,22 @@ document.addEventListener('load', function(){
 		if (arr.length <= 0) return;
 		window.cal = ics(); // build a cal
 		for (var i = 1; i < arr.rows.length; i++) {
-			console.log("arr len "+ arr.rows.length);
-			console.log("Looping array, " + i + ".");
+			//console.log("arr len "+ arr.rows.length);
+			//console.log("Looping array, " + i + ".");
 			// see if we have a table element with a link inside it (link text has course info on it)
-			console.log(arr.children[1]);
-			console.log(arr.children[1].children[2]);
+			//console.log(arr.children[1]);
+			//console.log(arr.children[1].children[2]);
 
 			if (arr.children[i]){
 				for(var j = 1; j < arr.rows.length; j++) {
 					if(typeof arr.children[i].children[j] !== "undefined")
 					if(typeof arr.children[i].children[j].children[0] !== "undefined" && 
 					   arr.children[i].children[j].children[0].tagName.toLowerCase() === "a"){
-						console.log(arr.children[i].children[j].children[0]);
-					console.log("I: " + i +"\nJ: " +j);
+						//console.log(arr.children[i].children[j].children[0]);
+					//console.log("I: " + i +"\nJ: " +j);
 				var parentChildren = Array.prototype.slice.call(arr.parentElement.children);
 				var dayOfWeek = j-1; // 0 is Monday, 6 is Sunday, bannerweb is weird
-				console.log("DAY " +dayOfWeek);
+				//console.log("DAY " +dayOfWeek);
 				// now convert a bannwerb date to a w3c spec'd date
 				if (dayOfWeek === 6) dayOfWeek = 0; // sunday becomes last
 				else dayOfWeek+= 1;
@@ -79,7 +85,8 @@ document.addEventListener('load', function(){
 
 			}
 		}		
-	cal.download();
+	cal.download();//comment this out for debugging
+	}
 	}
 	console.log("Hello, WPI")
 	var btn = document.createElement("input");
@@ -92,4 +99,11 @@ document.addEventListener('load', function(){
 	btn.style.height = "200px";
 	document.body.insertBefore(btn, document.body.children[0]);
 	btn.style.fontSize = "32pt";
+	var datepicker = document.createElement("input");
+	datepicker.id = "datepicker";
+	datepicker.type = "date";
+	document.body.insertBefore(datepicker, document.body.children[0]);
+	var termtex = document.createTextNode("Choose end of term here: ");
+	termtex.id = "termendform";
+	document.body.insertBefore(termtex, document.body.children[0]);
 } , true);
