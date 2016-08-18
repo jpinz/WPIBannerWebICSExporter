@@ -7,7 +7,7 @@ window.randomCSSColor = function() {
 document.addEventListener('load', function(){
 	window.makeSchedule = function(){
 		console.log("Button Clicked");
-		var termend = new Date(2016, 10, 13,0,0,0,0); //hack, definitely do this better later
+		var termend = new Date(2016, 9, 13,0,0,0,0); //TODO: Add input at the top to signify end of term
 		var arr = document.getElementsByTagName('tbody')[7];//hardcoded to find the 7th table on the page, should be the schedule
 		console.log(arr);
 		// more hacks - trying to get this out fast
@@ -42,8 +42,10 @@ document.addEventListener('load', function(){
 					if(typeof arr.children[i].children[j].children[0] !== "undefined" && 
 					   arr.children[i].children[j].children[0].tagName.toLowerCase() === "a"){
 						console.log(arr.children[i].children[j].children[0]);
+					console.log("I: " + i +"\nJ: " +j);
 				var parentChildren = Array.prototype.slice.call(arr.parentElement.children);
-				var dayOfWeek = parentChildren.indexOf(arr[i]) -1; // 0 is Monday, 6 is Sunday, bannerweb is weird
+				var dayOfWeek = j-1; // 0 is Monday, 6 is Sunday, bannerweb is weird
+				console.log("DAY " +dayOfWeek);
 				// now convert a bannwerb date to a w3c spec'd date
 				if (dayOfWeek === 6) dayOfWeek = 0; // sunday becomes last
 				else dayOfWeek+= 1;
@@ -65,7 +67,6 @@ document.addEventListener('load', function(){
 				var description = calItem[1];
 				var location = calItem[3];
 				var times = calItem[2].split("-"); // contains two strings with start and end times 
-				console.log(course);
 
 				// "clone" two new Date() objects
 				var start = addHoursAndMinutes(new Date(workingDate.getTime()), times[0]);
