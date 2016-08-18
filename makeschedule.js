@@ -1,9 +1,3 @@
-window.randomCSSColor = function() {
-	var r = Math.floor(Math.random() * 255);
-	var g = Math.floor(Math.random() * 255);
-	var b = Math.floor(Math.random() * 255);
-	return "rgb(" + r + ", " + g + ", " + b + ")";
-}
 document.addEventListener('load', function(){
 	window.makeSchedule = function(){
 		console.log("Button Clicked");
@@ -98,6 +92,4 @@ document.addEventListener('load', function(){
 	btn.style.height = "200px";
 	document.body.insertBefore(btn, document.body.children[0]);
 	btn.style.fontSize = "32pt";
-	//var anon = function() { btn.style.backgroundColor = window.randomCSSColor();window.setTimeout(anon, 500);}
-	anon();
 } , true);
