@@ -85,7 +85,7 @@ document.addEventListener('load', function(){
 
 			}
 		}		
-	cal.download();//comment this out for debugging
+	cal.download("WPI Schedule");//comment this out for debugging
 	}
 	}
 	console.log("Hello, WPI")
