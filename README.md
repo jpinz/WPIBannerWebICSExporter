@@ -15,12 +15,12 @@ Thanks to Evin Ugur https://github.com/evinugur for the original code. I just up
 2. Registration
 3. Student Schedule by Day and Time
 4. Navigate to the most recent week with a full week schedule
-5. Click Download
-6. Import ICS into calendar app of choice, but idk what works. YMMV
+5. Add Term End date in the box on the top
+6. Click Download
+7. Import ICS into calendar app of choice, but idk what works. YMMV
 
 ## Todo
 - Add Class Names
-- Add Date Selector to specify the end of the term.
 - Fix importing into Google Calendar
 - Add vacation days/days where classes dont meet
 
