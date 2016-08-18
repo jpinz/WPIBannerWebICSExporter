@@ -1,6 +1,6 @@
 {
-	"name": "WPI Schedule Exporter",
-	"description": "Generate an ICS for Google Cal, iCal, etc from WPI BannerWeb",
+	"name": "WPI Schedule Exporter (2016 Version)",
+	"description": "Generate an ICS for Google Cal, iCal, etc from WPI BannerWeb. Thanks to Evin Ugur for the original code.",
 	"version": "1.0.0",
 	"author": "Julian Pinzer (http://github.com/jpinz)",
 	"permissions": [
