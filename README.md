@@ -18,6 +18,12 @@ Thanks to Evin Ugur https://github.com/evinugur for the original code. I just up
 5. Click Download
 6. Import ICS into calendar app of choice, but idk what works. YMMV
 
+## Todo
+- Add Class Names
+- Add Date Selector to specify the end of the term.
+- Fix importing into Google Calendar
+- Add vacation days/days where classes dont meet
+
 ## Bugs
 - Doesn't account for Vacation days, and is currently hardcoded to end on October 13th, 2016. When A Term ends.
 - Currently doesn't work when importing directly into Google Calendar, I had to first import it into outlook then export, then import into Google Calendar. Then it worked.
