@@ -17,14 +17,6 @@ Not yet uploaded to the Chrome Dev store, I'll do it soon
 
 ## Todo
 - Make it so that classes before the first day of the first term dont get added
-=======
-3. Student Schedule by Day and Time
-4. Navigate to the most recent week with a full week schedule
-5. Add Term End date in the box on the top
-6. Click Download
-7. Import ICS into calendar app of choice, but idk what works. YMMV
-
-## Todo
 - Fix importing into Google Calendar
 - Add vacation days/days where classes dont meet
 - Comment out console logging
