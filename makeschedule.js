@@ -1,20 +1,29 @@
 document.addEventListener('load', function(){
+	//TODO: make it so that classes arent made before start date
+	var weekDays = function(startday){
+		console.log("StartDay: " + startday);
+		startdaynum = startday.getDay();
+		console.log("StartDay#: " + startdaynum);
+		if(startdaynum===1)return[startday.getDate(),startday.getDate()+1,startday.getDate()+2,startday.getDate()+3,startday.getDate()+4];//Monday
+		if(startdaynum===2)return[startday.getDate()-1,startday.getDate(),startday.getDate()+1,startday.getDate()+2,startday.getDate()+3];//Tuesday
+		if(startdaynum===3)return[startday.getDate()-2,startday.getDate()-1,startday.getDate(),startday.getDate()+1,startday.getDate()+2];//Wednesday
+		if(startdaynum===4)return[startday.getDate()-3,startday.getDate()-2,startday.getDate()-1,startday.getDate(),startday.getDate()+1];//Thursday
+		if(startdaynum===5)return[startday.getDate()-4,startday.getDate()-3,startday.getDate()-2,startday.getDate()-1,startday.getDate()];//Friday
+	}
+
+	var daynum = function(letter){
+		if(letter === "M") return 0;
+		if(letter === "T") return 1;
+		if(letter === "W") return 2;
+		if(letter === "R") return 3;
+		if(letter === "F") return 4;
+	}
 
 	window.makeSchedule = function(){
 		console.log("Button Clicked");
-		var enddate = document.getElementById("datepicker").value;
-		if(!enddate) window.alert("Please select a date for the term to end on.");
-		else {
-		var datearray = enddate.split("-");
-		var termend = new Date(datearray[0], datearray[1]-1, datearray[2],0,0,0,0); //TODO: Add input at the top to signify end of term
-		console.log(termend);
-		var arr = document.getElementsByTagName('tbody')[7];//hardcoded to find the 7th table on the page, should be the schedule
+		var arr = document.getElementsByClassName('datadisplaytable')[1];//hardcoded to find the 2nd (0 based remember!) table on the page, should be the schedule
 		console.log(arr);
-		// more hacks - trying to get this out fast
-		var monday = new Date(document.getElementsByClassName("fieldlargetext")[0].innerHTML.split("Week of ")[1]);
-		//console.log(monday)
-		// better solution would be to use Date.now and then figure out when the weekdays are in proximity to the current date
-
+		
 		// takes a Date object and a string that's not formatted on bannerweb and returns the date with the time tacked on
 		var addHoursAndMinutes = function(date, time) {
 			var timestrings = time.split(' '); // gives you an array of 2, time and am or pm
@@ -24,86 +33,70 @@ document.addEventListener('load', function(){
 			var minute = parseFloat(hourandminute[1]);
 			date.setHours(hour);
 			date.setMinutes(minute);
+			console.log("DATEEE: " + date);
 			return date; // technically since it's a reference we don't need to return but it's easier for me to read like this
 		}
 
 		if (arr.length <= 0) return;
 		window.cal = ics(); // build a cal
 		for (var i = 1; i < arr.rows.length; i++) {
-			//console.log("arr len "+ arr.rows.length);
-			//console.log("Looping array, " + i + ".");
-			// see if we have a table element with a link inside it (link text has course info on it)
-			//console.log(arr.children[1]);
-			//console.log(arr.children[1].children[2]);
+			console.log("arr len "+ arr.rows.length);
+			console.log("Looping array, " + i + ".");
+			console.log(arr.children[0].children[i]);
+			if(arr.children[0].children[i].children[3].innerHTML === "<b>Total Credits:</b>");
+			else if (arr.children[0].children[i]){
+				console.log("0: " + arr.children[0].children[i].children[0].innerHTML);
+				if(arr.children[0].children[i].children[0].innerHTML !== "&nbsp;")console.log("valid");
+				if(arr.children[0].children[i].children[0].innerHTML !== "&nbsp;")var crn = arr.children[0].children[i].children[0].innerHTML;
+				if(arr.children[0].children[i].children[1].innerHTML !== "&nbsp;")var course = arr.children[0].children[i].children[1].innerHTML;
+				if(arr.children[0].children[i].children[2].innerHTML !== "&nbsp;")var coursetitle = arr.children[0].children[i].children[2].innerHTML;
+				var startdate = arr.children[0].children[i].children[6].innerHTML;
+				var enddate = arr.children[0].children[i].children[7].innerHTML;
+				var days = arr.children[0].children[i].children[8].innerHTML.split("");
+				var times = arr.children[0].children[i].children[9].innerHTML.split(" - ");
+				var location = arr.children[0].children[i].children[10].innerHTML;
+				var instructor = arr.children[0].children[i].children[11].innerHTML;
+				if(instructor === '<abbr title="To Be Announced">TBA</abbr>') instructor = "TBA";
 
-			if (arr.children[i]){
-				for(var j = 1; j < arr.rows.length; j++) {
-					if(typeof arr.children[i].children[j] !== "undefined")
-					if(typeof arr.children[i].children[j].children[0] !== "undefined" && 
-					   arr.children[i].children[j].children[0].tagName.toLowerCase() === "a"){
-						//console.log(arr.children[i].children[j].children[0]);
-					//console.log("I: " + i +"\nJ: " +j);
-				var parentChildren = Array.prototype.slice.call(arr.parentElement.children);
-				var dayOfWeek = j-1; // 0 is Monday, 6 is Sunday, bannerweb is weird
-				//console.log("DAY " +dayOfWeek);
-				// now convert a bannwerb date to a w3c spec'd date
-				if (dayOfWeek === 6) dayOfWeek = 0; // sunday becomes last
-				else dayOfWeek+= 1;
-				// all the other days get a little bigger since Sunday dipped past monday
+				console.log( "Course Title: " + coursetitle + "\nCourse: " + course +"\nInstructor: " + instructor + "\nCRN: " + crn + "\nStart and End Date: " +startdate + " " + enddate + "\nLocation: " + location + "\nStart Time: " + times[0] + "\nEnd Time: " + times[1]);
 
-				// build a Date object based off of monday
-				var workingDate = new Date(monday.getTime()); // getTime() returns a date expressed as a huge number
-				// done this way because Date's have no native clone method, but this gets the job done
-				var workingDay = workingDate.getDay();
-				var distance = dayOfWeek - workingDay;
-				//var distance = workingDay - dayOfWeek;
-				// essentially we scraped Monday off the page, then tack on whatever day the DOM says a particular class is on 
-				workingDate.setDate(workingDate.getDate() + distance); 
-
-				var calItem = arr.children[i].children[j].children[0].innerHTML.split("<br>");
-
-				// yank crap out of the DOM
-				var course = calItem[0];
-				var description = calItem[1];
-				var location = calItem[3];
-				var times = calItem[2].split("-"); // contains two strings with start and end times 
-
-				// "clone" two new Date() objects
-				var start = addHoursAndMinutes(new Date(workingDate.getTime()), times[0]);
-				var end = addHoursAndMinutes(new Date(workingDate.getTime()), times[1]);
-				
-				// take wpi course data and build an ICS object 
-				var rrule = {
-					freq: "WEEKLY",
-					until: termend,
-					interval: 1 // repeat every week... setting to 2 would do 2 weeks... etc
-				}
-				// now that we have everything in place, add it to cal
-				cal.addEvent(course, description, location, start, end, rrule);
+				// build a Date object based off the first day of the class. Assuming the first day is a thursday like it has been for the past 3 years
+				var starting = new Date(startdate);
+				var ending = new Date(enddate);
+				ending.setDate(ending.getDate()+1);
+				var firstweek = weekDays(starting);
+				console.log(firstweek);
+				for(var j=0; j<days.length; j++) {
+					// "clone" two new Date() objects
+					var start = addHoursAndMinutes(new Date(starting.getFullYear(), starting.getMonth(), firstweek[daynum(days[j])]), times[0]);
+					var end = addHoursAndMinutes(new Date(starting.getFullYear(), starting.getMonth(), firstweek[daynum(days[j])]), times[1]);
+					console.log("SSTART: " +start);
+					console.log("EEND: " +end);
+					console.log("STARTING " + enddate);
+					// take wpi course data and build an ICS object 
+					var rrule = {
+						freq: "WEEKLY",
+						dtstart: starting,
+						until: ending,	
+						interval: 1 // repeat every week... setting to 2 would do 2 weeks... etc
 					}
+					var description = "Instructor: " + instructor + "\\nCourse: " + course + "\\nCRN: " + crn;
+					// now that we have everything in place, add it to cal
+					cal.addEvent(coursetitle, description, location, start, end, rrule);
 				}
-
 			}
-		}		
-	cal.download("WPI Schedule");//comment this out for debugging
-	}
+		}
+		cal.download("WPI Schedule (" + starting.getFullYear() + ")");//comment this out for debugging
 	}
 	console.log("Hello, WPI")
 	var btn = document.createElement("input");
 	btn.id = "insertedbtn";
-	if (document.getElementById("insertedbtn")!== null || document.URL.indexOf("pls/prod/bwskfshd") === -1) return; // super lazy
+	if (document.getElementById("insertedbtn")!== null || document.URL.indexOf("pls/prod/bwskcrse") === -1) return; // super lazy
 	btn.type = "button";
-	btn.value = "Download Schedule!!!";
+	btn.value = "Download your " + (new Date()).getFullYear() + " schedule!";
 	btn.onclick = function(){window.makeSchedule()};
 	btn.style.width = "100%";
 	btn.style.height = "200px";
 	document.body.insertBefore(btn, document.body.children[0]);
 	btn.style.fontSize = "32pt";
-	var datepicker = document.createElement("input");
-	datepicker.id = "datepicker";
-	datepicker.type = "date";
-	document.body.insertBefore(datepicker, document.body.children[0]);
-	var termtex = document.createTextNode("Choose end of term here: ");
-	termtex.id = "termendform";
-	document.body.insertBefore(termtex, document.body.children[0]);
 } , true);
