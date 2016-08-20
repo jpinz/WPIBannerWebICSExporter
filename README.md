@@ -12,8 +12,9 @@ Not yet uploaded to the Chrome Dev store, I'll do it soon
 1. Bannerweb
 2. Registration
 3. Concise Student Schedule
-4. Click Download
-5. Import ICS into calendar app of choice, but idk what works. YMMV
+4. Select Term
+5. Click Download
+6. Import ICS into calendar app of choice, but idk what works. YMMV
 
 ## Todo
 - Make it so that classes before the first day of the first term dont get added
