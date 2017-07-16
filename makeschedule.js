@@ -83,9 +83,9 @@ document.addEventListener('load', function(){
 	console.log("Hello, WPI")//Just to confirm the code works
 	var btn = document.createElement("input");
 	btn.id = "insertedbtn";
-	if (document.getElementById("insertedbtn")!== null || document.URL.indexOf("pls/prod/bwskcrse") === -1) return;//Check if the button is there, and that the user is on the right page
+	if (document.getElementById("insertedbtn")!== null || (document.title).trim() != "Student Detail Schedule") return;//If the button is not there or the title is not the right title then return nothing and exit.
 	btn.type = "button";
-	btn.value = "Download your " + (new Date()).getFullYear() + " schedule!";
+	btn.value = "Download your WPI schedule!";
 	btn.onclick = function(){window.makeSchedule()};
 	btn.style.width = "100%";
 	btn.style.height = "200px";
