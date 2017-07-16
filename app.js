@@ -4,5 +4,5 @@ var addScript = function(filename) {
 	(document.head || document.documentElement).appendChild(script);
 }
 
-var scripts = ["ics.deps.min.js", "ics.min.js", 'makeschedule.js'];
+var scripts = ["jquery-3.2.1.min.js", "ics.deps.min.js", "ics.min.js", 'makeschedule.js'];
 for (var i = 0; i < scripts.length; i++) addScript(scripts[i]);

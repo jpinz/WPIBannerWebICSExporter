@@ -19,9 +19,10 @@ document.addEventListener('load', function(){
 
 	window.makeSchedule = function(){
 		console.log("Button Clicked");//Just log to start downloading
-		var arr = document.getElementsByClassName('datadisplaytable')[1];//hardcoded to find the 2nd (0 based remember!) table on the page, should be the schedule
-		//console.log(arr);
+		var arr = $( "table.datadisplaytable" ).find( "tbody" )[0]//find the table and then get the first element of it which contains all the data
+		console.log(arr);
 		
+
 		// takes a Date object and a string that's not formatted and returns the date with the time tacked on
 		var addHoursAndMinutes = function(date, time) {
 			var timestrings = time.split(' '); // gives you an array of 2, time and am or pm
@@ -83,7 +84,7 @@ document.addEventListener('load', function(){
 	console.log("Hello, WPI")//Just to confirm the code works
 	var btn = document.createElement("input");
 	btn.id = "insertedbtn";
-	if (document.getElementById("insertedbtn")!== null || (document.title).trim() != "Student Detail Schedule") return;//If the button is not there or the title is not the right title then return nothing and exit.
+	if (document.getElementById("insertedbtn")!== null || (document.title).trim() != "Student Schedule by Day and Time") return;//If the button is not there or the title is not the right title then return nothing and exit.
 	btn.type = "button";
 	btn.value = "Download your WPI schedule!";
 	btn.onclick = function(){window.makeSchedule()};
