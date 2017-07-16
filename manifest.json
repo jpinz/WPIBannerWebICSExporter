@@ -1,17 +1,16 @@
 {
-	"name": "WPI Schedule Exporter (2016 Version)",
-	"description": "Generate an ICS for Google Cal, iCal, etc from WPI BannerWeb. Thanks to Evin Ugur for the original code.",
+	"name": "WPI Schedule Exporter (2017 Version)",
+	"description": "Generate an ICS for Google Cal, iCal, etc from WPI BannerWeb.",
 	"version": "1.1.0",
 	"author": "Julian Pinzer (http://github.com/jpinz)",
 	"permissions": [
 		"https://bannerweb.wpi.edu/pls/prod/*"
 	],
-
-	"web_accessible_resources": ["makeschedule.js", "ics.deps.min.js", "ics.min.js"],
+	"web_accessible_resources": ["jquery-3.2.1.min.js", "makeschedule.js", "ics.deps.min.js", "ics.min.js"],
 	"content_scripts": [
 		{
 			"matches": ["https://bannerweb.wpi.edu/pls/prod/*"],
-			"js": ["ics.deps.min.js", "ics.min.js", "app.js"],
+			"js": ["jquery-3.2.1.min.js","ics.deps.min.js", "ics.min.js", "app.js"],
 			"run_at": "document_idle"
 		}
 	],
