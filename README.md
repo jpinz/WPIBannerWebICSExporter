@@ -22,6 +22,7 @@ Not yet uploaded to the Chrome Dev store, I'll do it soon
 - Add vacation days/days where classes dont meet
 - Comment out console logging
 - Add Comments
+- Schedule meeting time second row isn't counted for labs/lectures
 
 ## Bugs
 - Currently doesn't work when importing directly into Google Calendar, I had to first import it into outlook then export, then import into Google Calendar. Then it worked.
