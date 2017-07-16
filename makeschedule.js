@@ -19,9 +19,10 @@ document.addEventListener('load', function(){
 
 	window.makeSchedule = function(){
 		console.log("Button Clicked");//Just log to start downloading
-		var arr = $( "table.datadisplaytable" ).find( "tbody" )[0]//find the table and then get the first element of it which contains all the data
+		var arr = $( "div.pagebodydiv" ).find("table.datadisplaytable");//The array containing all of the data
+		var length = arr.length / 2;
 		console.log(arr);
-		
+		console.log(length);
 
 		// takes a Date object and a string that's not formatted and returns the date with the time tacked on
 		var addHoursAndMinutes = function(date, time) {
@@ -36,47 +37,62 @@ document.addEventListener('load', function(){
 			return date; // technically since it's a reference we don't need to return but it's easier for me to read like this
 		}
 
-		if (arr.length <= 0) return;//If length of array is empty, don't do anything
+		if (length <= 0) return;//If length of array is empty, don't do anything
 		window.cal = ics(); // build a cal
-		for (var i = 1; i < arr.rows.length; i++) {
+		for (var i = 0; i < arr.length; i += 2) {
 			//console.log("arr len "+ arr.rows.length);
 			//console.log("Looping array, " + i + ".");
 			//console.log(arr.children[0].children[i]);
-			if(arr.children[0].children[i].children[3].innerHTML === "<b>Total Credits:</b>");//Make sure to stop on the last row of the table
-			else if (arr.children[0].children[i]){
-				//console.log("0: " + arr.children[0].children[i].children[0].innerHTML);
-				if(arr.children[0].children[i].children[0].innerHTML !== "&nbsp;")var crn = arr.children[0].children[i].children[0].innerHTML;//Get the CRN of the course
-				if(arr.children[0].children[i].children[1].innerHTML !== "&nbsp;")var course = arr.children[0].children[i].children[1].innerHTML;//Get the Data of the course
-				if(arr.children[0].children[i].children[2].innerHTML !== "&nbsp;")var coursetitle = arr.children[0].children[i].children[2].innerHTML;//Get the Title of the course
-				var startdate = arr.children[0].children[i].children[6].innerHTML;//Get the starting date of the course
-				var enddate = arr.children[0].children[i].children[7].innerHTML;//Get the ending date of the course
-				var days = arr.children[0].children[i].children[8].innerHTML.split("");//Get an array of the weekdays the course meets on
-				var times = arr.children[0].children[i].children[9].innerHTML.split(" - ");//Get the start and end time of the class, spaces are important
-				var location = arr.children[0].children[i].children[10].innerHTML;//Get the location of the course
-				var instructor = arr.children[0].children[i].children[11].innerHTML;//Get the instructor of the course
-				if(instructor === '<abbr title="To Be Announced">TBA</abbr>') instructor = "TBA";//Check to see if the instructor is TBA
-				//console.log( "Course Title: " + coursetitle + "\nCourse: " + course +"\nInstructor: " + instructor + "\nCRN: " + crn + "\nStart and End Date: " +startdate + " " + enddate + "\nLocation: " + location + "\nStart Time: " + times[0] + "\nEnd Time: " + times[1]);
-				
-				// build a Date object based off the first day of the class.
-				var starting = new Date(startdate);//Make a Date variable based of the starting date of the class
-				var ending = new Date(enddate);//Make a Date variable based of the ending date of the class
-				ending.setDate(ending.getDate()+1);//The class actually meets on the last day, so add 1 to it
-				var firstweek = weekDays(starting);//Get the date of each day of the week for the first week
-				for(var j=0; j<days.length; j++) {
-					// "clone" two new Date() objects
-					var start = addHoursAndMinutes(new Date(starting.getFullYear(), starting.getMonth(), firstweek[daynum(days[j])]), times[0]);
-					var end = addHoursAndMinutes(new Date(starting.getFullYear(), starting.getMonth(), firstweek[daynum(days[j])]), times[1]);
+			//console.log(arr[i]);
+			var title = arr[i].caption.textContent;
+			var index = title.indexOf(" - ");
+			var course = title.substring(index + 3);
+			course = course.substring(0, course.indexOf(" - "));
+			title = title.substring(0, index);
+			var body = arr.find("tbody")[i];
+			var crn = $(body.rows[1]).find("td")[0].textContent;
+			console.log(title);
+			console.log(course);
+			console.log(crn);
 
-					// take wpi course data and build an ICS object 
-					var rrule = {
-						freq: "WEEKLY",
-						dtstart: starting, //Doesnt seem to be working
-						until: ending,	
-						interval: 1 // repeat every week... setting to 2 would do 2 weeks... etc
-					}
-					var description = "Instructor: " + instructor + "\\nCourse: " + course + "\\nCRN: " + crn;//Construct the Description of the course with the data.
-					cal.addEvent(coursetitle, description, location, start, end, rrule);//Now that we have everything in place, add it to calendar
+			var schedule = arr.find("tbody")[i+1];
+			var times = $(schedule.rows[1]).find("td")[1].textContent.split(" - ");
+			var days = $(schedule.rows[1]).find("td")[2].textContent.split("");
+			var dateRange = $(schedule.rows[1]).find("td")[4].textContent.split(" - ");
+			var startdate = dateRange[0];
+			var enddate = dateRange[1];
+			var location = $(schedule.rows[1]).find("td")[3].textContent;
+			var classType = $(schedule.rows[1]).find("td")[5].textContent;
+			var instructor = $(schedule.rows[1]).find("td")[6].textContent.trim();
+			if(instructor === '<abbr title="To Be Announced">TBA</abbr>') instructor = "TBA";//Check to see if the instructor is TBA
+
+			//console.log(time);
+			//console.log(days);
+			//console.log(location);
+			//console.log(classType);
+			//console.log(instructor);
+
+			console.log( "Course Title: " + title + "\nCourse: " + course +"\nInstructor: " + instructor + "\nCRN: " + crn + "\nStart and End Date: " +startdate + " - " + enddate + "\nLocation: " + location + "\nStart Time: " + times[0] + "\nEnd Time: " + times[1]);
+			
+			// build a Date object based off the first day of the class.
+			var starting = new Date(startdate);//Make a Date variable based of the starting date of the class
+			var ending = new Date(enddate);//Make a Date variable based of the ending date of the class
+			ending.setDate(ending.getDate()+1);//The class actually meets on the last day, so add 1 to it
+			var firstweek = weekDays(starting);//Get the date of each day of the week for the first week
+			for(var j=0; j<days.length; j++) {
+				// "clone" two new Date() objects
+				var start = addHoursAndMinutes(new Date(starting.getFullYear(), starting.getMonth(), firstweek[daynum(days[j])]), times[0]);
+				var end = addHoursAndMinutes(new Date(starting.getFullYear(), starting.getMonth(), firstweek[daynum(days[j])]), times[1]);
+
+				// take wpi course data and build an ICS object 
+				var rrule = {
+					freq: "WEEKLY",
+					dtstart: starting, //Doesnt seem to be working
+					until: ending,	
+					interval: 1 // repeat every week... setting to 2 would do 2 weeks... etc
 				}
+				var description = "<b>Instructor:</b> " + instructor + "<br><b>Course:</b> " + course + "<br><b>CRN:</b> " + crn;//Construct the Description of the course with the data.
+				cal.addEvent(title, description, location, start, end, rrule);//Now that we have everything in place, add it to calendar
 			}
 		}
 		cal.download("WPI Schedule (" + starting.getFullYear() + ")");//comment this out for debugging
@@ -84,7 +100,7 @@ document.addEventListener('load', function(){
 	console.log("Hello, WPI")//Just to confirm the code works
 	var btn = document.createElement("input");
 	btn.id = "insertedbtn";
-	if (document.getElementById("insertedbtn")!== null || (document.title).trim() != "Student Schedule by Day and Time") return;//If the button is not there or the title is not the right title then return nothing and exit.
+    if (document.getElementById("insertedbtn")!== null || (document.title).trim() != "Student Detail Schedule") return;//If the button is not there or the title is not the right title then return nothing and exit.
 	btn.type = "button";
 	btn.value = "Download your WPI schedule!";
 	btn.onclick = function(){window.makeSchedule()};
